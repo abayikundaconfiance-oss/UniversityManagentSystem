@@ -24,5 +24,9 @@ public class GraduateStudent extends Student {
 
         System.out.println("Research Topic: " + researchTopic);
     }
+    @Override
+    public double calculateGPA() {
+        return 4.0;
+    }
 }
 

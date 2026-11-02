@@ -46,4 +46,7 @@ public class Student extends Person {
     public void displayInfo() {
         System.out.println(toString());
     }
+    public double calculateGPA() {
+        return 0.0;
+    }
 }
