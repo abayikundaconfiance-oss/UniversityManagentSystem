@@ -1,8 +1,21 @@
-package model;
+
+import database.StudentDAO;
+import model.*;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        Student student = new UndergraduateStudent(
+                3,
+                "Peter Mugisha",
+                "peter2@gmail.com",
+                "ST005",
+                "Software Engineering"
+        );
+
+        StudentDAO studentDAO = new StudentDAO();
+        studentDAO.addStudent(student);
 
         Student student1 = new UndergraduateStudent(
                 1, "Alice", "alice@gmail.com",
@@ -49,3 +62,4 @@ public class Main {
         manager.displayAssignments();
     }
 }
+
