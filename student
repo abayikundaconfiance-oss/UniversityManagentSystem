@@ -1,0 +1,13 @@
+public class student{
+    private string name;
+    private int age;
+    private string gender;
+
+    public student(string name,int age,string gender){
+        this.name=name;
+        this.age=age;
+        this.gender=gender;
+        
+    }
+
+}
