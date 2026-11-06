@@ -1,87 +1,181 @@
 
 import database.StudentDAO;
+import database.CourseDAO;
+import database.EnrollmentDAO;
 import model.*;
+
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Student student = new UndergraduateStudent(
-                3,
-                "Peter Mugisha",
-                "peter2@gmail.com",
-                "ST005",
-                "Software Engineering"
-        );
+        Scanner scanner = new Scanner(System.in);
 
         StudentDAO studentDAO = new StudentDAO();
+        CourseDAO courseDAO = new CourseDAO();
+        EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
 
-        studentDAO.updateStudentWithTransaction(
-                "ST003",
-                "Computer Science",
-                "peternew@gmail.com"
-        );
+        int choice;
 
-        System.out.println("\nStudents from Database:");
-        studentDAO.getAllStudents();
+        do {
+            System.out.println("\n===== UNIVERSITY MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add Student");
+            System.out.println("2. View All Students");
+            System.out.println("3. Search Student");
+            System.out.println("4. Update Student");
+            System.out.println("5. Delete Student");
+            System.out.println("6. Add Course");
+            System.out.println("7. View All Courses");
+            System.out.println("8. Delete Course");
+            System.out.println("9. Enroll Student");
+            System.out.println("10. View Student Enrollments");
+            System.out.println("11. View All Enrollments");
+            System.out.println("12. Delete Enrollment");
+            System.out.println("0. Exit");
 
-        System.out.println("\nSearching Student:");
-        studentDAO.searchStudent("ST003");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
 
-        Student student1 = new UndergraduateStudent(
-                1,
-                "Alice",
-                "alice@gmail.com",
-                "ST001",
-                "Computer Science"
-        );
+            switch (choice) {
 
-        Student student2 = new GraduateStudent(
-                2,
-                "John",
-                "john@gmail.com",
-                "ST002",
-                "Software Engineering",
-                "Artificial Intelligence"
-        );
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
 
-        UniversityManager manager = new UniversityManager();
+                    System.out.print("Enter Full Name: ");
+                    String name = scanner.nextLine();
 
-        manager.addStudent(student1);
-        manager.addStudent(student2);
+                    System.out.print("Enter Email: ");
+                    String email = scanner.nextLine();
 
-        Course course1 = new Course(101, "Java Programming", 3);
-        Course course2 = new Course(102, "Database Systems", 4);
+                    System.out.print("Enter Student Number: ");
+                    String studentNumber = scanner.nextLine();
 
-        manager.addCourse(course1);
-        manager.addCourse(course2);
+                    System.out.print("Enter Program: ");
+                    String program = scanner.nextLine();
 
-        Instructor instructor1 = new Instructor(
-                1,
-                "Mr. James",
-                "james@gmail.com",
-                "INS001",
-                "Computer Science"
-        );
+                    Student student = new UndergraduateStudent(
+                            id, name, email, studentNumber, program
+                    );
 
-        Instructor instructor2 = new Instructor(
-                2,
-                "Mrs. Mary",
-                "mary@gmail.com",
-                "INS002",
-                "Information Technology"
-        );
+                    studentDAO.addStudent(student);
+                    break;
 
-        manager.assignInstructor(course1, instructor1);
-        manager.assignInstructor(course2, instructor2);
+                case 2:
+                    studentDAO.getAllStudents();
+                    break;
 
-        System.out.println("Students:");
-        manager.displayStudents();
+                case 3:
+                    System.out.print("Enter Student Number: ");
+                    String searchNumber = scanner.nextLine();
 
-        System.out.println("\nCourses:");
-        manager.displayCourses();
+                    studentDAO.searchStudent(searchNumber);
+                    break;
 
-        System.out.println("\nInstructor Assignments:");
-        manager.displayAssignments();
+                case 4:
+                    System.out.print("Enter Student Number: ");
+                    String updateNumber = scanner.nextLine();
+
+                    System.out.print("Enter New Program: ");
+                    String newProgram = scanner.nextLine();
+
+                    System.out.print("Enter New Email: ");
+                    String newEmail = scanner.nextLine();
+
+                    studentDAO.updateStudentWithTransaction(
+                            updateNumber, newProgram, newEmail
+                    );
+                    break;
+
+                case 5:
+                    System.out.print("Enter Student Number: ");
+                    String deleteNumber = scanner.nextLine();
+
+                    studentDAO.deleteStudent(deleteNumber);
+                    break;
+
+                case 6:
+                    System.out.print("Enter Course ID: ");
+                    int courseId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter Course Name: ");
+                    String courseName = scanner.nextLine();
+
+                    System.out.print("Enter Credits: ");
+                    int credits = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Course course = new Course(
+                            courseId, courseName, credits
+                    );
+
+                    courseDAO.addCourse(course);
+                    break;
+
+                case 7:
+                    courseDAO.getAllCourses();
+                    break;
+
+                case 8:
+                    System.out.print("Enter Course ID: ");
+                    int deleteCourseId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    courseDAO.deleteCourse(deleteCourseId);
+                    break;
+
+                case 9:
+                    System.out.print("Enter Student ID: ");
+                    int enrollStudentId = scanner.nextInt();
+
+                    System.out.print("Enter Course ID: ");
+                    int enrollCourseId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    enrollmentDAO.enrollStudent(
+                            enrollStudentId, enrollCourseId
+                    );
+                    break;
+
+                case 10:
+                    System.out.print("Enter Student ID: ");
+                    int studentId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    enrollmentDAO.getStudentEnrollments(studentId);
+                    break;
+
+                case 11:
+                    enrollmentDAO.getAllEnrollments();
+                    break;
+
+                case 12:
+                    System.out.print("Enter Student ID: ");
+                    int studentIdToDelete = scanner.nextInt();
+
+                    System.out.print("Enter Course ID: ");
+                    int courseIdToDelete = scanner.nextInt();
+                    scanner.nextLine();
+
+                    enrollmentDAO.deleteEnrollment(
+                            studentIdToDelete, courseIdToDelete
+                    );
+                    break;
+
+                case 0:
+                    System.out.println("Thank you for using University Management System!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+
+        } while (choice != 0);
+
+        scanner.close();
     }
 }
